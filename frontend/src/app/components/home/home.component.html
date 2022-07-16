@@ -1,0 +1,370 @@
+<!--loader start-->
+<div *ngIf="processing" class="loading">
+    <div class="gear"></div>
+</div>
+<!--loader end-->
+
+<div class="card">
+    <div class="card-header">
+        <div class="two alt-two cchange">
+            <h1 class="heading">
+                <span>{{title}}</span>
+            </h1>
+        </div>
+    </div>
+
+    <div *ngIf="showUserList; then listView else detailView"></div>
+
+    <!-- Loading the list on home page load  -->
+    <ng-template #listView>
+    <div *ngIf="userdatalist.length>0 && showUserList" class="card-body pt-0" style="height: max-content;">
+        <div class="justify-content-center text-center">
+            <div class="card-body" style="margin-bottom: 2px; padding-bottom:2px;">
+                <div class="col-md-8 justify-content-center" style="left:180px;">
+                    <div class="input-group mb-6">
+                        <input type="text" class="form-control" placeholder="Search by name / id / username / gender" [(ngModel)]="searchParam" />
+                        <div class="input-group-append" >
+                            <button class="btn btn-outline-secondary" style="margin: 0px;" type="button" (click)="searchUsersbyQuery()">
+                                Search
+                            </button>
+                            <button class="btn btn-outline-secondary" style="margin: 0px;" type="button" (click)="clearsearchByQuery()">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center text-center">
+            <div class="card-body" style="margin: 2px; padding:2px;">
+                <pagination-controls (pageChange)="pageChangeEvent($event)" [maxSize]=15 previousLabel="" nextLabel=""
+                    [responsive]=true></pagination-controls>
+            </div>
+            <div class="table-responsive col-12 col-md-12">
+                <table class="table table-hover" width="100%" cellspacing="0" id="datasamp">
+                    <thead class="mdb-color darken-3">
+                        <tr>
+                            <th>No.</th>
+                            <th>User Id</th>
+                            <th>User Name</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Gender</th>
+                            <th>Birth Date</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let usr of userdatalist | paginate: { itemsPerPage: 10, currentPage: pagenumber, totalItems: totalusers }">
+                            <td scope="row">{{usr.No}}</td>
+                            <td scope="row">{{ usr.UserId }}</td>
+                            <td scope="row">{{ usr.UserName }}</td>
+                            <td scope="row">{{ usr.FirstName }}</td>
+                            <td scope="row">{{ usr.LastName }}</td>
+                            <td scope="row">{{ usr.Gender }}</td>
+                            <td scope="row">{{ usr.DoB }}</td>
+                            <td (click)="viewUserDetails(usr.UserId)" style="cursor:pointer;">
+                                <span title="View Details"><i class="fa fa-eye"></i></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="pageChangeEvent($event)" [maxSize]=15 previousLabel="" nextLabel=""
+                    [responsive]=true></pagination-controls>
+            </div>
+        </div>
+    </div>
+    </ng-template>
+    <!-- Loading the list on home page load  -->
+
+    <!-- Loading the detail view on home page load  -->
+    <ng-template #detailView>
+
+        <div class="justify-content-center text-center">
+            <div class="card-body" style="margin-bottom: 2px; padding-bottom:2px;">
+                <div class="col-md-8 justify-content-center" style="left:0px;">        
+                    <div class="input-group mb-6">
+                        <div class="input-group-append" >
+                            <button class="btn btn-outline-secondary" style="margin: 0px; margin-bottom: 10px; margin-left:-30px;" type="button" (click)="showUserList=true">
+                                Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-header">
+                <div class="two alt-two cchange">
+                        <span><b>Personal Information</b></span>
+                </div>
+            </div>        
+            <div class="no-margin-padding">
+                <form id="userlogin" class="formb">
+                    <div class="row">
+
+                        <div class="col-12 col-md-4">
+                            <div class="form-group row">
+                                <label for="title" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Title</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].title}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="first_name" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">First Name</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].first}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="age" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Age</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].age}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="nationality" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Nationality</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].nationality}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="profile_m" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Picture Medium</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].profile_m}} readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="form-group row">
+                                <label for="gender" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Gender</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].gender}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="last_name" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Last Name</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].last}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="reg_date" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Registered Date</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].reg_date}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="dob" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Birth Date</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].dob}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="profile_t" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Picture Thumbnail</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.info[0].profile_t}} readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <img src={{userdetaildata.info[0].profile_l}} style="width:57%">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>      
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="two alt-two cchange">
+                        <span><b>Login Information</b></span>
+                </div>
+            </div>        
+            <div class="no-margin-padding">
+                <form id="userlogin" class="formb">
+                    <div class="row">
+
+                        <div class="col-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="userid" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">User Id</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.id}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="username" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Username</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.username}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pwd_salt" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Password Salt</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.salt}} readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="pwd_text" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Password Text</label>
+                                <div class="col-6 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.pwd_text}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pwd_md5" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Password MD5</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.pwd_md5}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pwd_sha1" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Password SHA1</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.pwd_sha}} readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="two alt-two cchange">
+                        <span><b>Contact Information</b></span>
+                </div>
+            </div>        
+            <div class="no-margin-padding">
+                <form id="userlogin" class="formb">
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <div class="form-group row">
+                                <label for="email" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Email Id</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.contact[0].email}} readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group row">
+                                <label for="cell_no" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Cell Number</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.contact[0].cell}} readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group row">
+                                <label for="phone_no" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Phone Number</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.contact[0].phone}} readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-header">
+                <div class="two alt-two cchange">
+                        <span><b>Location Information</b></span>
+                </div>
+            </div>        
+            <div class="no-margin-padding">
+                <form id="userlogin" class="formb">
+                    <div class="row">
+
+                        <div class="col-12 col-md-4">
+                            <div class="form-group row">
+                                <label for="street_name" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Street Name</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].street_name}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="street_no" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Street Number</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].street_no}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="city" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">City</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].city}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="state" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">State</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].state}} readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="form-group row">
+                                <label for="country" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Country</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].country}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="postcode" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Postcode</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].postcode}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="coord_lat" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Co-ordinates Lat</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].coordinates_lat}} readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="form-group row">
+                                <label for="coord_long" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Co-ordinates Long</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].coordinates_long}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tz_offset" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Timezone Offset</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].timezone_offset}} readonly />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tz_desc" class="col-5 col-sm-5 col-md-5 col-lg-5 col-form-label">Timezone Description</label>
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" value={{userdetaildata.location[0].timezone_desc}} readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>        
+        
+    </ng-template>
+
+</div>
