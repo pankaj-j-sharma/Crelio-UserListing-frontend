@@ -1,0 +1,43 @@
+<!--loader start-->
+<div *ngIf="processing" class="loading">
+    <div class="gear"></div>
+</div>
+<!--loader end-->
+
+<div class="card">
+    <div class="card-header">
+        <div class="two alt-two cchange">
+            <h1 class="heading">
+                <span>{{title}}</span>
+            </h1>
+        </div>
+    </div>
+
+    <div class="card-body pt-0" style="height: max-content;margin-top:40px;">
+        <div class="justify-content-center text-center">
+            <div class="card-body" style="margin-bottom: 2px; padding-bottom:2px;">
+                <div class="col-md-10 justify-content-center" >
+                    <div class="col-12 col-md-12">
+                        <div class="form-group row">
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-6 row">
+                                <label for="country" class="col-7 col-sm-7 col-md-7 col-lg-7 col-form-label">Number of Records to Add</label>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5">
+                                    <input type="number" class="form-control" max="5000" min="1" [(ngModel)]="numberofrecords"  />
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                <button class="btn btn-outline-secondary" style="margin: 0px;" type="button" (click)="loadExternalData()">
+                                    Load the records into our Application
+                                </button>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="col-12 col-md-12 justify-content-left" style="margin-top: 50px; white-space:pre-wrap;">
+                        <label class="" style="color:#31C2B3">{{logoutput}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
