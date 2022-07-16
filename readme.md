@@ -31,5 +31,16 @@ we can input the number of records to be fetched and also we can see how many to
 
 PLease find below screenshots for reference 
 
+![Login Page](https://raw.githubusercontent.com/pankaj-j-sharma/Crelio-UserListing-frontend/development/frontend/src/assets/images/readme/login_page.JPG)
+
+![Home Page](https://raw.githubusercontent.com/pankaj-j-sharma/Crelio-UserListing-frontend/development/frontend/src/assets/images/readme/home_page.JPG)
+
+![Log Out](https://raw.githubusercontent.com/pankaj-j-sharma/Crelio-UserListing-frontend/development/frontend/src/assets/images/readme/home_page_logout.JPG)
+
+![User Details](https://raw.githubusercontent.com/pankaj-j-sharma/Crelio-UserListing-frontend/development/frontend/src/assets/images/readme/user_detail_page.JPG)
+
+![Load Data from external API ](https://raw.githubusercontent.com/pankaj-j-sharma/Crelio-UserListing-frontend/development/frontend/src/assets/images/readme/load_data_page.JPG)
+
+![After Loaded Data](https://raw.githubusercontent.com/pankaj-j-sharma/Crelio-UserListing-frontend/development/frontend/src/assets/images/readme/loaded_data_page.JPG)
 
 
