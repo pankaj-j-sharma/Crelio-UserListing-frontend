@@ -11,6 +11,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # setup of the project 
 cd frontend
+npm cache clean -f => to clean the cache
 npm install --force  => to install all the dependencies 
 ng serve --open => to run the app 
 
